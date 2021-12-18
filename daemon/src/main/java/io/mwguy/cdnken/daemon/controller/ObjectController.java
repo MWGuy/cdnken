@@ -21,9 +21,9 @@ public class ObjectController {
 
     @PostMapping("/**")
     @PreAuthorize("isFullyAuthenticated()")
-    public ResponseEntity<?> saveObject(MultipartFile multipartFile, HttpServletRequest request) {
+    public ResponseEntity<?> saveObject(@RequestBody MultipartFile file, HttpServletRequest request) {
         try {
-            storageService.save(getObjectName(request), multipartFile.getInputStream());
+            storageService.save(getObjectName(request), file.getInputStream());
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();

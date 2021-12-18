@@ -16,11 +16,12 @@ public class StorageService {
     }
 
     public void save(String name, InputStream inputStream) throws IOException {
-        var path = pathResolver.resolve(name);
+        var path = pathResolver.resolve(name).toAbsolutePath();
         if (Files.exists(path)) {
             throw new IOException("Object already exists");
         }
 
+        Files.createDirectories(path.getParent());
         Files.write(path, inputStream.readAllBytes());
     }
 
