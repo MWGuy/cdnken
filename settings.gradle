@@ -1,0 +1,4 @@
+include 'master'
+include 'daemon'
+
+rootProject.name = 'cdnken'

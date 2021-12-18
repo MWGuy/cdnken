@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaPluginProjectSettings">
+    <option name="entityNameTemplate" />
+    <option name="generateJpaOnGetter" value="true" />
+    <option name="generateSerialVersionUID" value="true" />
+    <option name="isLombokGetterAndSetter" value="true" />
+    <option name="isLombokToString" value="true" />
+    <option name="isLombokRequiredArgsConstructor" value="true" />
+    <option name="scaffoldingLanguage" />
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
+</project>
