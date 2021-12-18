@@ -22,7 +22,7 @@ public class ServerInformationController {
         return ServerInformationResponse.builder()
                 .template(configurationProperties.getTemplate())
                 .capacity(configurationProperties.getCapacity())
-                .mirror(configurationProperties.getMirror())
+                .mirror(configurationProperties.isMirror())
                 .build();
     }
 }

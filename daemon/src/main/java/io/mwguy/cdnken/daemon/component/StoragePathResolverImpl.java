@@ -1,8 +1,8 @@
 package io.mwguy.cdnken.daemon.component;
 
 import io.mwguy.cdnken.daemon.configuration.properties.DaemonConfigurationProperties;
-import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class StoragePathResolverImpl implements StoragePathResolver {
@@ -13,9 +13,9 @@ public class StoragePathResolverImpl implements StoragePathResolver {
     }
 
     @Override
-    public Path resolve(String name) {
+    public Path resolve(String name) throws IOException {
         if (name.contains("..")) {
-            throw new IllegalArgumentException("Bad object name");
+            throw new IOException("Bad object name");
         }
 
         return configurationProperties.getDirectory().resolve(name);
