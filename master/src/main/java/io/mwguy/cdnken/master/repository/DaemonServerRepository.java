@@ -14,6 +14,9 @@ public interface DaemonServerRepository extends JpaRepository<DaemonServer, UUID
     @Query("select s from DaemonServer s join s.objects o where o = ?1 and s.enabled = true")
     List<DaemonServer> findAllByObject(Object object);
 
+    @Query("select s from DaemonServer s where s.enabled = true and s.mirror = false")
+    List<DaemonServer> findAllEnabledPrimaryServers();
+
     @Query("select s from DaemonServer s")
     List<DaemonServerInfo> findAllProjections();
 

@@ -1,4 +1,4 @@
-package io.mwguy.cdnken.daemon.model;
+package io.mwguy.cdnken.shared.model;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
 
-public class DaemonAuthentication implements Authentication {
+public class SimpleAuthenticationImpl implements Authentication {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
@@ -39,6 +39,6 @@ public class DaemonAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return "daemon";
+        return "simple";
     }
 }

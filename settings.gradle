@@ -1,4 +1,3 @@
-include 'master'
-include 'daemon'
+include 'shared', 'daemon', 'master'
 
 rootProject.name = 'cdnken'

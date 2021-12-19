@@ -1,6 +1,5 @@
-package io.mwguy.cdnken.daemon.configuration;
+package io.mwguy.cdnken.master.configuration.properties;
 
-import io.mwguy.cdnken.daemon.configuration.properties.DaemonConfigurationProperties;
 import io.mwguy.cdnken.shared.component.CustomAuthenticationManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +13,9 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private final DaemonConfigurationProperties configurationProperties;
+    private final MasterConfigurationProperties configurationProperties;
 
-    public SecurityConfiguration(DaemonConfigurationProperties configurationProperties) {
+    public SecurityConfiguration(MasterConfigurationProperties configurationProperties) {
         this.configurationProperties = configurationProperties;
     }
 
@@ -24,7 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
         http.csrf().disable();
-        http.anonymous().disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilter(new BearerTokenAuthenticationFilter(authenticationManagerBean()));

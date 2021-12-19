@@ -1,0 +1,11 @@
+group 'io.mwguy.cdnken.shared'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    // TODO: some how replace this to implementation with dependency resolving
+    compile 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}

@@ -1,7 +1,7 @@
 package io.mwguy.cdnken.daemon.controller;
 
 import io.mwguy.cdnken.daemon.configuration.properties.DaemonConfigurationProperties;
-import io.mwguy.cdnken.daemon.model.ServerInformationResponse;
+import io.mwguy.cdnken.shared.model.ServerInformationResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +19,11 @@ public class ServerInformationController {
     @GetMapping("/info")
     @PreAuthorize("isFullyAuthenticated()")
     public ServerInformationResponse serverInformation() {
-        return ServerInformationResponse.builder()
-                .template(configurationProperties.getTemplate())
-                .capacity(configurationProperties.getCapacity())
-                .mirror(configurationProperties.isMirror())
-                .build();
+        var information = new ServerInformationResponse();
+        information.setTemplate(configurationProperties.getTemplate());
+        information.setCapacity(configurationProperties.getCapacity());
+        information.setMirror(configurationProperties.isMirror());
+
+        return information;
     }
 }
