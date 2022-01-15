@@ -14,7 +14,7 @@ public class StoragePathResolverImpl implements StoragePathResolver {
 
     @Override
     public Path resolve(String name) throws IOException {
-        if (name.contains("..")) {
+        if (name.contains("..") || name.startsWith("/") || name.startsWith(".")) {
             throw new IOException("Bad object name");
         }
 

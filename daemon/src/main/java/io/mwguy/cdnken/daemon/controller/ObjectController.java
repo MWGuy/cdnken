@@ -1,7 +1,7 @@
 package io.mwguy.cdnken.daemon.controller;
 
 import io.mwguy.cdnken.daemon.service.StorageService;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/object")
 public class ObjectController {
@@ -21,28 +22,36 @@ public class ObjectController {
 
     @PostMapping("/**")
     @PreAuthorize("isFullyAuthenticated()")
-    public ResponseEntity<?> saveObject(@RequestBody MultipartFile file, HttpServletRequest request) {
-        try {
-            storageService.save(getObjectName(request), file.getInputStream());
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
+    public ResponseEntity<?> uploadOrMoveObject(
+            @RequestBody(required = false) MultipartFile file,
+            @RequestParam(required = false, name = "destination") String destination,
+            HttpServletRequest request
+    ) throws IOException {
+        if ((file == null && destination == null) || (file != null && destination != null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var objectName = getObjectName(request);
+        if (file != null) {
+            return storageService.upload(objectName, file.getInputStream());
+        } else {
+            return storageService.move(objectName, destination);
         }
     }
 
     @DeleteMapping("/**")
     @PreAuthorize("isFullyAuthenticated()")
-    public ResponseEntity<?> deleteObject(HttpServletRequest request) {
-        try {
-            return storageService.delete(getObjectName(request))
-                    ? ResponseEntity.status(HttpStatus.OK).build()
-                    : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<?> deleteObject(HttpServletRequest request) throws IOException {
+        return storageService.delete(getObjectName(request));
     }
 
     protected String getObjectName(HttpServletRequest request) {
         return request.getRequestURI().replaceFirst("/object/", "").trim();
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> handleIOException(IOException exception) {
+        log.warn("Handled IO exception with message: {}", exception.getMessage(), exception);
+        return ResponseEntity.internalServerError().build();
     }
 }
